@@ -38,13 +38,18 @@ def get_match_schedule(event_key):
     matches = []
 
     for match in tba.request(f"event/{event_key}/matches/simple"):
-        if match == "Error": continue
+        if match == "Error": 
+            raise AssertionError("Something went wrong")
         if match["comp_level"] == "qm":
-            matches.append(Match(match["alliances"]["red"]["team_keys"], match["alliances"]["blue"]["team_keys"], match["match_number"]))
+            matches.append(Match(match["alliances"]["red"]["team_keys"], match["alliances"]["blue"]["team_keys"], "Q"+match["match_number"]))
 
     return matches
 
-def tabulate_matches(matches, team_to_flag = -1):
+def load_teams():
+    for match in matches:
+        match.load_teams()
+
+def tabulate_matches(matches, event_name, team_to_flag = -1):
     """Returns table representation of match schedule with option to highlight team"""
     schedule_table = PrettyTable()
     schedule_table.field_names = ["Match","Red","Blue"]
@@ -58,11 +63,11 @@ def tabulate_matches(matches, team_to_flag = -1):
         ])
 
     schedule_table.sortby = "Match"
-    return schedule_table
+    return schedule_table.get_string(title=event_name + " Match Schedule")
 
 if __name__ == "__main__":
     print("\n"*5)
     colorama.init()
     matches = get_match_schedule("2019paphi")
-    print(tabulate_matches(matches, 321).get_string(title="Ramp Riot 2021 Match Schedule"))
+    print(tabulate_matches(matches, "Ramp Riot 2021", 321))
     print("\n"*5)

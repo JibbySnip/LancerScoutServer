@@ -7,9 +7,11 @@ class Match():
     def __init__(self,red_keys,blue_keys,matchNumber):
         self.red_keys = red_keys
         self.blue_keys = blue_keys
+        self.number = matchNumber
+
+    def load_teams():
         self.red_alliance = self.get_teams(red_keys)
         self.blue_alliance = self.get_teams(blue_keys)
-        self.number = matchNumber
 
     def get_teams(self,keys):
         return [teams.Team(key) for key in keys]
@@ -61,6 +63,6 @@ def tabulate_matches(matches, team_to_flag = -1):
 if __name__ == "__main__":
     print("\n"*5)
     colorama.init()
-    matches = get_match_schedule("2021parr")
+    matches = get_match_schedule("2019paphi")
     print(tabulate_matches(matches, 321).get_string(title="Ramp Riot 2021 Match Schedule"))
     print("\n"*5)

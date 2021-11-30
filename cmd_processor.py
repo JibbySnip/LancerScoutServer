@@ -39,7 +39,7 @@ class CommandProcessor(cmd.Cmd):
         if len(args) == 1:
             try:
                 self.event_title,self.event_key = self.events[int(args[0])]
-                print("Selected")
+                print("Selected {self.event_title}")
             ex
 
     def requirement_error(self,method_name,*args):

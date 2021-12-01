@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import tba, teams, colorama
+import tba, team, colorama
 from prettytable import PrettyTable
 
 
@@ -14,7 +14,7 @@ class Match():
         self.blue_alliance = self.get_teams(blue_keys)
 
     def get_teams(self,keys):
-        return [teams.Team.get_team(key, self.m_tba) for key in keys]
+        return [team.Team.get_team(key, self.m_tba) for key in keys]
 
     def red_contains_team(self,number):
         for team in self.red_alliance:

@@ -15,24 +15,24 @@ class EventCommander(cmd.Cmd):
     def empty_line(self):
         return None
 
-    def do_setapikey(self, *args):
+    def do_setapikey(self, arg):
         'Set your local TBA API Key'
-        if len(args) != 1:
+        if len(arg.split(" ")) != 1:
             self.requirement_error("setapikey", "TBA API Key")
         else:
-            self.m_tba.set_api_key(args[0]) # TODO: add api key validation
+            self.m_tba.set_api_key(arg) # TODO: add api key validation
             print("API Key successfully set")
 
-    def do_getevents(self, *args):
+    def do_getevents(self, arg):
         'Find a list of event keys for a given team and a given season -- getevents {team number} {competition year}'
         print()
         self.events = []
-        if " " in args[0]:
-            team_num, year = args[0].split(" ")
+        if len(arg.split(" ") == 2):
+            team_num, year = arg.split(" ")
             self.m_team = team_num
             print(f"Looking for events that team {team_num} participated in during the {year} season...")
             events = self.m_tba.request(f"team/frc{team_num}/events/{year}/simple")
-            if len(events != 0):
+            if len(events) != 0:
                 if events[0].get('city','error') == 'error':
                     print("Something went wrong. Make sure you have the correct API key, and your team number and season year are valid.")
                 else:
@@ -46,13 +46,13 @@ class EventCommander(cmd.Cmd):
                         print(f"[{index}] {event['name']}")
                     print()
             else:
-                print(f"Team {team_num} didn't compete at any events in {year}")
+                print(f"Team {team_num} didn't compete at any events in {year}.\n")
         else:
             self.requirement_error("getevents", "team number", "year")
 
-    def do_setevent(self, *args):
+    def do_setevent(self, arg):
         "Select event from the list provided by geteventkeys using the given index numbers --  setevent {index}"
-        if len(args) == 1: # TODO: arg filtering
+        if len(arg.split(" ") == 1): # TODO: arg filtering
             if self.events != []:
                 try:
                     event_entry = self.events[int(args[0])]
@@ -73,20 +73,21 @@ class EventCommander(cmd.Cmd):
             else:
                 print("Error: no event data is available. Please run getevents first.")
 
-    def do_currevent(self, *args):
+    def do_currevent(self, arg):
         "Displays the current event, if one is available -- currevent"
         if self.event_set():
             print(self.event['name'])
         else:
             print("No event has been set.")
 
-    def do_haskey(self, *args):
+    def do_haskey(self, arg):
         "Check if api key is registered -- haskey"
         print("Key is registered!" if self.m_tba.api_key is not None else "No key found...")
 
-    def do_exit(self, *args):
+    def do_exit(self, arg):
         "Close the program -- exit"
-        self.close()
+        print("Exiting...")
+        exit()
 
     def get_match_schedule(self,event_key):
         return matches.get_match_schedule(event_key, self.m_tba)

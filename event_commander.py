@@ -76,7 +76,7 @@ class EventCommander(cmd.Cmd):
     def do_currevent(self, arg):
         "Displays the current event, if one is available -- currevent"
         if self.event_set():
-            print(self.event['name'])
+            print(self.event_name)
         else:
             print("No event has been set.")
 
@@ -93,7 +93,7 @@ class EventCommander(cmd.Cmd):
         return matches.get_match_schedule(event_key, self.m_tba)
 
     def event_set(self):
-        return self.event is not None
+        return self.event is not ()
 
 
 

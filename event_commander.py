@@ -27,7 +27,7 @@ class EventCommander(cmd.Cmd):
         'Find a list of event keys for a given team and a given season -- getevents {team number} {competition year}'
         print()
         self.events = []
-        if len(arg.split(" ") == 2):
+        if len(arg.split(" ")) == 2:
             team_num, year = arg.split(" ")
             self.m_team = team_num
             print(f"Looking for events that team {team_num} participated in during the {year} season...")
@@ -52,10 +52,10 @@ class EventCommander(cmd.Cmd):
 
     def do_setevent(self, arg):
         "Select event from the list provided by geteventkeys using the given index numbers --  setevent {index}"
-        if len(arg.split(" ") == 1): # TODO: arg filtering
+        if len(arg.split(" ")) == 1: # TODO: arg filtering
             if self.events != []:
                 try:
-                    event_entry = self.events[int(args[0])]
+                    event_entry = self.events[int(arg)]
                     self.event_name = event_entry["name"]
                     self.event_key = event_entry["key"]
                     self.event_year = event_entry["year"]

@@ -10,6 +10,7 @@ class EventCommander(cmd.Cmd):
         self.event = ()
         self.m_tba = tba.TbaRequestSender()
         self.m_team = "321"
+        self.m_matches = []
         self.events = []
 
     def empty_line(self):
@@ -94,11 +95,6 @@ class EventCommander(cmd.Cmd):
 
     def event_set(self):
         return self.event is not ()
-
-
-
-
-
 
     def requirement_error(self,method_name,*args):
         needed_params = ["{"+arg+"}" for arg in args]

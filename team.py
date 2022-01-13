@@ -8,6 +8,61 @@ class Team():
         self.m_tba = m_tba
         self.name, self.number = self.query_team(team_key)
         Team.teams.add(self)
+        self.matches = []
+
+    def init_fields(self):
+        self.team_scores = []
+        self.alliance_scores = []
+        self.driver_scores = []
+        self.rps = 0
+        self.ranking = -1
+        self.undefended_cycle_time = []
+        self.defended_cycle_time = []
+        self.defended_score_loss = []
+        self.defense_score_loss = []
+        init_seasonal_fields()
+
+    def init_seasonal_fields(self):
+        # TODO: Add on-season data
+        return
+
+    def add_match(self, match):
+        self.matches.append(match)
+
+    def add_match_data(self, data):
+        self.team_scores.append(data.get("team_score", None))
+        self.alliance_scores.append(data.get("team_score", None))
+        self.driver_scores.append(data.get("driver_score"), None)
+        self.rps += data.get("rps", 0)
+        self.ranking = data.get("ranking", -1)
+        # TODO: Add on-season objective breakdowns
+        self.undefended_cycle_time.append(data.get("undefended_cycle_time", None) # this can be expanded per-objective
+        self.defended_cycle_time.append(data.get("defended_cycle_time", None)) #this can be expanded per-objective
+        # TODO: Consider adding something that measures how much a team
+        # tends to make other teams take over their average defended cycle time
+        self.defended_score_loss.append(data.get("defended_score_loss", None))
+        self.defense_score_loss.append(data.get("defense_score_loss", None)) # When defending
+        self.penalty_points.append(data.get("penalty_points", 0))
+
+
+        """Adds the team-specific data from a match."""
+        self.match_data.append({
+        "match_number":
+        "offensive_data": {
+            "team_score": ,
+            "alliance_score": ,
+            "driver_score": data.get("calculated_driver_score", None),
+            "rps": data.get("rps", None)
+            # Any other season-specific offensive attributes can be added here,
+            # including cycle time, number of elements scored
+        },
+        "defensive_data": {
+            # calculated average decrease in cycle time, maybe effectiveness ranking
+        }
+        })
+
+    def add_pit_data(self, data):
+        self.team_picture =
 
     def query_team(self,team_key):
         resp = self.m_tba.request(f"team/{team_key}")

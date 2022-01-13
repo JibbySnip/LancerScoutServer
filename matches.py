@@ -12,6 +12,29 @@ class Match():
         self.m_tba = m_tba
         self.red_alliance = self.get_teams(red_keys)
         self.blue_alliance = self.get_teams(blue_keys)
+        self.red_breakdown = {}
+        self.blue_breakdown = {}
+
+    def add_team_data(self, data):
+        """Processes and distributes data from a match scout"""
+        # TODO: add data validation in function call
+        if data.get("alliance_color" == "red"):
+            red_breakdown[data.get("team_number")] = data
+
+        else:
+            blue_breakdown[data.get("team_number")] = data
+        if(len(blue_breakdown) == 3 and len(red_breakdown) == 3):
+            self.process_match_data()
+
+    def process_match_data(self):
+        # should provide per-team a dict with team score, ind. score, driver
+        # score, rps, ranking, undefended_cycle_time, defended_cycle_time,
+        # defense_score_loss, and penalty_points
+
+        for team in red_alliance + blue_alliance:
+            
+
+
 
     def get_teams(self,keys):
         return [team.Team.get_team(key, self.m_tba) for key in keys]
@@ -49,8 +72,6 @@ def tabulate_matches(matches, event_name, team_to_flag = None):
     schedule_table = PrettyTable()
     schedule_table.field_names = ["Match","Red","Blue"]
     for match in sorted(matches, key = lambda m: int(m.number)):
-        print(match.number)
-        print(type(match.number))
         red = match.alliance_to_str(match.red_alliance)
         blue = match.alliance_to_str(match.blue_alliance)
         schedule_table.add_row([

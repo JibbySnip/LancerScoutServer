@@ -7,7 +7,7 @@ def detect_qr_from_webcam(webcam_port):
     while True:
         _, img = cap.read()
         # detect and decode
-        # check if there is a QRCode in the image
+        # check if there is a QR Code in the image
         rect_img, data = get_qr_data(img)
         if data:
             cv2.imshow("img", img)

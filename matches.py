@@ -26,13 +26,13 @@ class Match():
         if(len(blue_breakdown) == 3 and len(red_breakdown) == 3):
             self.process_match_data()
 
-    def process_match_data(self):
-        # should provide per-team a dict with team score, ind. score, driver
-        # score, rps, ranking, undefended_cycle_time, defended_cycle_time,
-        # defense_score_loss, and penalty_points
+    # def process_match_data(self):
+    #     # should provide per-team a dict with team score, ind. score, driver
+    #     # score, rps, ranking, undefended_cycle_time, defended_cycle_time,
+    #     # defense_score_loss, and penalty_points
+    #
+    #     for team in red_alliance + blue_alliance:
 
-        for team in red_alliance + blue_alliance:
-            
 
 
 

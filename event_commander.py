@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-import cmd, sys, tba, matches, os
+import cmd, sys, tba, matches, os, qr_data
 
 class EventCommander(cmd.Cmd):
-    intro = 'Welcome to LancerScout v0.1. Type "help" or ? to list commands.\n'
+    intro = 'Welcome to LancerScout v2022.1. Type "help" or ? to list commands.\n'
     prompt = "> "
     file = None
     def __init__(self):
@@ -90,11 +90,27 @@ class EventCommander(cmd.Cmd):
         print("Exiting...")
         exit()
 
+    def do_qrscan(self, arg):
+        "Scan QR code of match data -- qrscan"
+        # m_data = qr_data.detect_qr_from_webcam(0)
+        m_data = -1
+        if m_data != -1:
+            match_number = m_data.get("match_number", -1)
+            if match_number != -1:
+                for match in matches:
+                    if match.number == match:
+                        match.add_team_data(m_data)
+                        print(f'Added data for team {m_data.get("team_number", -1)}')
+                        return
+                else:
+                    print(f'Match number {qr_data.get("m_data", -1)} was not found. This is not a great error to get...')
+        print("Something was wrong with the data. Do better.")
+
     def get_match_schedule(self,event_key):
         return matches.get_match_schedule(event_key, self.m_tba)
 
     def event_set(self):
-        return self.event is not ()
+        return self.event != ()
 
     def requirement_error(self,method_name,*args):
         needed_params = ["{"+arg+"}" for arg in args]
